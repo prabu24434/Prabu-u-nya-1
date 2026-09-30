@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dapur Serundeng — Kasir</title>
+<title>Kelola Menu — Dapur Serundeng</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
@@ -12,251 +12,171 @@
 
 <header class="topbar">
   <div class="brand">
-    <button class="brand-mark" id="brandMarkBtn" type="button" aria-label="Dapur Serundeng">🍥</button>
+    <span class="brand-mark">🧾</span>
     <div class="brand-text">
-      <h1>Dapur Serundeng</h1>
-      <p>Kasir Gorengan &amp; Paket Serundeng</p>
+      <h1>Kelola Menu</h1>
+      <p>Dapur Serundeng — Admin</p>
     </div>
   </div>
   <div class="topbar-right">
-    <span class="db-status" id="dbStatus" title="Status koneksi database GitHub Gist">
+    <span class="db-status" id="dbStatus" title="Status koneksi database">
       <span class="db-status-dot offline" id="dbStatusDot"></span>
-      <span id="dbStatusText">Belum tersambung</span>
+      <span id="dbStatusText">Menghubungkan...</span>
     </span>
-    <button class="btn-icon-ghost" id="btnDbSettings" type="button" aria-label="Pengaturan Database">⚙️</button>
-    <div class="topbar-clock" id="clockDisplay">--:--</div>
+    <a class="btn-link" href="/" id="btnBackToKasir">← Buka Kasir</a>
   </div>
 </header>
 
 <main class="layout">
 
-  <section class="panel menu-panel">
-    <div class="customer-card">
-      <h2>Data Pelanggan</h2>
-      <div class="form-row">
-        <div class="field">
-          <label for="custName">Nama Pelanggan</label>
-          <input id="custName" type="text" placeholder="Nama pelanggan" autocomplete="off" />
-        </div>
-        <div class="field">
-          <label>Tujuan Pengantaran</label>
-          <div class="dest-toggle" id="destModeGroup">
-            <button type="button" class="dest-toggle-btn" data-mode="antar">🛵 Antar</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="field field-address" id="destAddressField" hidden>
-        <label for="custDest">Alamat / Lokasi Antar</label>
-        <input id="custDest" type="text" placeholder="Tulis alamat / lokasi antar" autocomplete="off" />
-      </div>
+  <section class="panel">
+    <div class="section-head">
+      <h2>Semua Menu</h2>
+      <span class="menu-count" id="totalMenuCount">0 menu</span>
     </div>
-
-    <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input id="searchInput" type="text" placeholder="Cari menu... misal: bakwan, ayam, telur" />
+    <p class="section-desc">Ringkasan semua menu gabungan. Edit &amp; hapus bisa langsung dari sini.</p>
+    <div class="table-wrap">
+      <table class="menu-table" id="tableSemua">
+        <thead>
+          <tr>
+            <th>Tipe</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty-hint" id="emptySemua" hidden>Belum ada menu sama sekali.</p>
     </div>
-
-    <div class="category-tabs" id="categoryTabs">
-      <button class="tab active" data-cat="gorengan" type="button">Gorengan</button>
-      <button class="tab" data-cat="serundeng" type="button">Paket Serundeng</button>
-      <button class="tab" data-cat="semua" type="button">Semua Menu</button>
-    </div>
-
-    <div class="menu-grid" id="menuGrid"></div>
-    <p class="empty-hint" id="menuEmptyHint" hidden>Menu tidak ditemukan.</p>
   </section>
 
-  <aside class="panel cart-panel">
-    <div class="cart-header">
-      <h2>Keranjang</h2>
-      <span class="cart-count" id="cartCount">0 item</span>
+  <section class="panel">
+    <div class="section-head">
+      <h2>Gorengan</h2>
+      <button class="btn-primary" id="btnAddGorengan" type="button">+ Tambah Menu Gorengan</button>
     </div>
+    <div class="table-wrap">
+      <table class="menu-table" id="tableGorengan">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Nama</th>
+            <th>Satuan</th>
+            <th>Harga</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty-hint" id="emptyGorengan" hidden>Belum ada menu gorengan.</p>
+    </div>
+  </section>
 
-    <div class="cart-list" id="cartList"></div>
-    <p class="empty-hint" id="cartEmptyHint">Keranjang masih kosong.<br />Pilih menu di sebelah kiri.</p>
+  <section class="panel">
+    <div class="section-head">
+      <h2>Paket Serundeng</h2>
+      <button class="btn-primary" id="btnAddSerundeng" type="button">+ Tambah Paket Serundeng</button>
+    </div>
+    <div class="table-wrap">
+      <table class="menu-table" id="tableSerundeng">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Pilih Nasi?</th>
+            <th>Pilih Telur?</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty-hint" id="emptySerundeng" hidden>Belum ada paket serundeng.</p>
+    </div>
+  </section>
 
-    <div class="cart-footer">
-      <div class="grand-total-row">
-        <span>Grand Total</span>
-        <span id="grandTotal">Rp0</span>
+  <section class="panel">
+    <div class="section-head">
+      <h2>Opsi Nasi &amp; Telur</h2>
+    </div>
+    <p class="section-desc">
+      Dipakai untuk paket serundeng yang butuh pilihan nasi/telur di kasir.
+    </p>
+    <div class="options-grid">
+      <div class="option-col">
+        <h3>Pilihan Nasi</h3>
+        <div class="chip-list" id="riceChipList"></div>
+        <div class="add-chip-row">
+          <input type="text" id="newRiceInput" placeholder="mis. Nasi Merah" />
+          <button class="btn-secondary" id="btnAddRice" type="button">+ Tambah</button>
+        </div>
       </div>
-      <button class="btn-checkout" id="btnCheckout" disabled type="button">Checkout</button>
+      <div class="option-col">
+        <h3>Pilihan Telur</h3>
+        <div class="chip-list" id="eggChipList"></div>
+        <div class="add-chip-row">
+          <input type="text" id="newEggInput" placeholder="mis. Telur Puyuh" />
+          <button class="btn-secondary" id="btnAddEgg" type="button">+ Tambah</button>
+        </div>
+      </div>
     </div>
-  </aside>
+  </section>
 
 </main>
 
-<section class="panel dashboard-panel" id="dashboardPanel">
-  <div class="dashboard-header">
-    <h2>Dashboard Hari Ini</h2>
-    <button class="btn-refresh" id="btnRefreshDashboard" type="button">↻ Refresh</button>
-  </div>
-  <div class="dashboard-cards">
-    <div class="dash-card">
-      <span class="dash-card-label">Pendapatan Hari Ini</span>
-      <span class="dash-card-value" id="dashRevenueToday">Rp0</span>
-    </div>
-    <div class="dash-card">
-      <span class="dash-card-label">Transaksi Hari Ini</span>
-      <span class="dash-card-value" id="dashCountToday">0</span>
-    </div>
-    <div class="dash-card">
-      <span class="dash-card-label">Menunggu</span>
-      <span class="dash-card-value amber" id="dashCountMenunggu">0</span>
-    </div>
-    <div class="dash-card">
-      <span class="dash-card-label">Selesai</span>
-      <span class="dash-card-value green" id="dashCountSelesai">0</span>
-    </div>
-  </div>
-  <div class="dashboard-chart">
-    <p class="dashboard-chart-title">Pendapatan 7 Hari Terakhir</p>
-    <div class="chart-bars" id="chartBars"></div>
-  </div>
-</section>
-
-<section class="panel order-history">
-  <h2>Riwayat Pesanan</h2>
-  <div class="order-list" id="orderList"></div>
-  <p class="empty-hint" id="orderEmptyHint">Belum ada pesanan.</p>
-</section>
-
-<!-- Modal: pilih varian & qty menu -->
+<!-- Modal: tambah / edit item menu -->
 <div class="modal-overlay" id="itemModalOverlay">
-  <div class="modal item-modal">
+  <div class="modal">
     <button class="modal-close" id="itemModalClose" type="button" aria-label="Tutup">&times;</button>
-    <p class="item-modal-category" id="itemModalCategory">Gorengan</p>
-    <h3 id="itemModalTitle">Nama Menu</h3>
-    <p class="item-modal-price" id="itemModalPrice">Rp0</p>
+    <h3 id="itemModalTitle">Tambah Menu</h3>
 
-    <div class="option-group" id="eggOptionGroup" hidden>
-      <label>Pilih Telur</label>
-      <div class="chip-group" id="eggChipGroup"></div>
+    <div class="field">
+      <label for="fieldName">Nama Menu</label>
+      <input type="text" id="fieldName" placeholder="mis. Bakwan Goreng" />
     </div>
 
-    <div class="option-group" id="riceOptionGroup" hidden>
-      <label>Pilih Nasi</label>
-      <div class="chip-group" id="riceChipGroup"></div>
+    <div class="field" id="fieldUnitWrap">
+      <label for="fieldUnit">Satuan</label>
+      <input type="text" id="fieldUnit" placeholder="mis. 4 pcs" />
     </div>
 
-    <div class="qty-control">
-      <label>Jumlah</label>
-      <div class="qty-stepper">
-        <button id="itemQtyMinus" type="button">&minus;</button>
-        <span id="itemQtyValue">1</span>
-        <button id="itemQtyPlus" type="button">+</button>
+    <div class="field">
+      <label for="fieldPrice">Harga</label>
+      <div class="input-prefix">
+        <span>Rp</span>
+        <input type="number" id="fieldPrice" min="0" step="500" placeholder="5000" />
       </div>
+    </div>
+
+    <div class="field-check" id="fieldRiceWrap">
+      <label class="toggle-row">
+        <span>Butuh pilihan nasi</span>
+        <span class="toggle-switch">
+          <input type="checkbox" id="fieldRequiresRice" />
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </span>
+      </label>
+    </div>
+
+    <div class="field-check" id="fieldEggWrap">
+      <label class="toggle-row">
+        <span>Ada pilihan jenis telur</span>
+        <span class="toggle-switch">
+          <input type="checkbox" id="fieldHasEgg" />
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </span>
+      </label>
     </div>
 
     <p class="item-modal-error" id="itemModalError" hidden></p>
 
-    <button class="btn-primary" id="itemModalConfirm" type="button">Tambah ke Keranjang</button>
-  </div>
-</div>
-
-<!-- Modal: checkout & pembayaran -->
-<div class="modal-overlay" id="checkoutModalOverlay">
-  <div class="modal checkout-modal">
-    <button class="modal-close" id="checkoutModalClose" type="button" aria-label="Tutup">&times;</button>
-    <h3>Checkout</h3>
-
-    <div class="checkout-customer" id="checkoutCustomer"></div>
-
-    <div class="checkout-summary" id="checkoutSummary"></div>
-
-    <div class="checkout-total-row">
-      <span>Total Bayar</span>
-      <span id="checkoutTotal">Rp0</span>
-    </div>
-
-    <div class="payment-methods">
-      <button class="payment-btn" data-method="cash" type="button">💵 Cash</button>
-      <button class="payment-btn" data-method="qris" type="button">📱 QRIS</button>
-    </div>
-
-    <div class="cash-panel" id="cashPanel" hidden>
-      <div class="cash-display">
-        <span>Uang Diterima</span>
-        <span id="cashAmountDisplay">Rp0</span>
-      </div>
-      <div class="keypad" id="keypad">
-        <button data-key="1" type="button">1</button>
-        <button data-key="2" type="button">2</button>
-        <button data-key="3" type="button">3</button>
-        <button data-key="4" type="button">4</button>
-        <button data-key="5" type="button">5</button>
-        <button data-key="6" type="button">6</button>
-        <button data-key="7" type="button">7</button>
-        <button data-key="8" type="button">8</button>
-        <button data-key="9" type="button">9</button>
-        <button data-key="000" type="button">000</button>
-        <button data-key="0" type="button">0</button>
-        <button data-key="back" type="button" aria-label="Hapus">⌫</button>
-      </div>
-      <button class="btn-clear" id="btnClearCash" type="button">Clear</button>
-      <div class="change-row" id="changeRow">
-        <span>Kembalian</span>
-        <span id="changeDisplay">Rp0</span>
-      </div>
-    </div>
-
-    <div class="qris-panel" id="qrisPanel" hidden>
-      <div class="qris-box">
-        <div class="qris-code">
-          <div class="qris-corner tl"></div>
-          <div class="qris-corner tr"></div>
-          <div class="qris-corner bl"></div>
-          <div class="qris-corner br"></div>
-          <span>QRIS</span>
-        </div>
-        <p>Silakan pindai kode QRIS untuk menyelesaikan pembayaran.</p>
-      </div>
-    </div>
-
-    <button class="btn-primary" id="btnConfirmPayment" type="button" disabled>Konfirmasi Pembayaran</button>
-  </div>
-</div>
-
-<!-- Modal: info koneksi database (kredensial ada di server, bukan di sini) -->
-<div class="modal-overlay" id="dbConfigModalOverlay">
-  <div class="modal db-config-modal">
-    <button class="modal-close" id="dbConfigModalClose" type="button" aria-label="Tutup">&times;</button>
-    <h3>Status Database (GitHub Gist)</h3>
-    <p class="db-config-desc">
-      Data pesanan &amp; keranjang disimpan online di GitHub Gist lewat serverless function
-      <code>/api/gist</code> di Vercel — token GitHub tidak pernah disimpan atau diketik di browser sama sekali.
-    </p>
-    <p class="db-config-desc">
-      Kalau status di pojok kanan atas menunjukkan <b>"Gagal tersambung"</b>, cek dulu di dashboard Vercel:
-    </p>
-    <ol class="db-config-steps">
-      <li>Buka proyek ini di <a href="https://vercel.com/dashboard" target="_blank" rel="noopener">vercel.com/dashboard</a></li>
-      <li>Masuk ke <b>Settings → Environment Variables</b></li>
-      <li>Pastikan ada <code>GITHUB_TOKEN</code> (scope <b>gist</b> saja) dan <code>GIST_ID</code></li>
-      <li>Setelah menambah/mengubah env var, klik <b>Redeploy</b> supaya function membaca nilai terbaru</li>
-    </ol>
-    <p class="item-modal-error" id="dbConfigError" hidden></p>
-  </div>
-</div>
-
-<!-- Modal: kode rahasia akses menu admin (dipicu dari logo pojok kiri atas) -->
-<div class="modal-overlay" id="secretCodeModalOverlay">
-  <div class="modal secret-code-modal">
-    <button class="modal-close" id="secretCodeModalClose" type="button" aria-label="Tutup">&times;</button>
-    <h3>Masukkan Kode</h3>
-    <p class="db-config-desc">Kode akses minimal 3 angka.</p>
-    <input type="text" inputmode="numeric" autocomplete="off" id="secretCodeInput" class="secret-code-input" placeholder="••••" />
-    <p class="item-modal-error" id="secretCodeError" hidden>Kode salah.</p>
-    <button class="btn-primary" id="secretCodeSubmit" type="button">Masuk</button>
+    <button class="btn-primary" id="itemModalSave" type="button">Simpan</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script src="script-part1.js"></script>
-<script src="script-part2.js"></script>
-<script src="script-part3.js"></script>
-<script src="script-part4.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
